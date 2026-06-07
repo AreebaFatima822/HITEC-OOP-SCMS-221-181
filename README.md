@@ -1,17 +1,65 @@
-Project Info
+# Smart Campus Management System (SCMS)
 
-Students: [Hafsa Shahid] & [Areeba Fatima]
+## Project Information
 
-Roll No: [25-cs-181] & [25-cs-221]
+**Project Title:** Smart Campus Management System
 
-Course: CS-OOP (Object-Oriented Programming)
+**Course:** Object-Oriented Programming (OOP)
 
-Semester: Fall 2025
+**Program:** BS Computer Science
 
-Department: Computer Science
+**Semester:** 2nd Semester
 
-University: HITEC University Taxila
+**Instructor:** Sir Mohsin Shehzad
 
-Project Description
+**Team Members:**
 
-The Smart Campus Management System (SCMS) is a C++17 project developed using Object-Oriented Programming concepts. It is designed to manage different university operations such as student records, faculty information, course registration, library management, fee records, and hostel allocation in one system. The project helps reduce manual work by organizing all data in a structured way. It also demonstrates the practical use of OOP concepts like classes, inheritance, polymorphism, file handling, and exception handling. The project is developed collaboratively using GitHub.
+* Areeba Fatima (25-CS-221)
+* Hafsa Shahid (25-CS-181)
+
+---
+
+## Project Description
+
+The Smart Campus Management System (SCMS) is an Object-Oriented Programming project developed in C++. The system aims to automate and manage various campus-related activities such as student records, course management, faculty information, attendance, and academic data. The project is being developed using OOP principles to ensure modularity, reusability, and maintainability. Additional features and modules will be added as the development process continues.
+
+---
+
+## Planned OOP Concepts
+
+The following OOP concepts will be implemented in this project:
+
+1. Classes
+2. Objects
+3. Encapsulation
+4. Abstraction
+5. Inheritance
+6. Polymorphism
+7. Constructors
+8. Destructors
+9. Function Overloading
+10. File Handling
+
+---
+
+## Planned Modules
+
+* Student Management Module
+* Faculty Management Module
+* Course Management Module
+* Attendance Management Module
+* Authentication Module
+* Academic Records Module
+
+---
+
+## Development Status
+
+Project setup completed. Implementation is currently in progress.
+
+---
+
+## GitHub Repository
+
+This repository contains the source code and documentation for the Smart Campus Management System project.
+
