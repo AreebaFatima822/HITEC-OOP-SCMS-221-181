@@ -59,13 +59,29 @@ The following OOP concepts will be implemented in this project:
 
 ## Planned Modules
 
-* Student Management Module
-* Faculty Management Module
-* Course Management Module
-* Attendance Management Module
-* Authentication Module
-* Academic Records Module
+1. Student Management Module
 
+Manages student registration, profiles, academic information, and records.
+
+2. Faculty Management Module
+
+Stores faculty details, department assignments, and teaching information.
+
+3. Course Management Module
+
+Handles course creation, enrollment, credit hours, and course records.
+
+4. Library Management Module
+
+Maintains book inventory, issue/return operations, and fine calculations.
+
+5. Fee Management Module
+
+Tracks student fee payments, dues, and transaction history.
+
+6. Hostel Management Module
+
+Manages room allocation, occupancy records, and hostel availability.
 
 
 ## Development Status
