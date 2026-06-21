@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <stdexcept>
 
 using namespace std;
 
-class CapacityExceededException : public exception
+class CapacityExceededException
 {
 public:
-    const char* what() const noexcept override
+    const char* what()
     {
-        return "Course capacity exceeded! Cannot enroll more students.";
+        return "Course capacity exceeded!";
     }
 };
 
@@ -27,12 +26,12 @@ public:
         name = n;
     }
 
-    int getStudentID() const
+    int getStudentID()
     {
         return studentID;
     }
 
-    string getName() const
+    string getName()
     {
         return name;
     }
@@ -51,7 +50,7 @@ public:
         name = n;
     }
 
-    string getName() const
+    string getName()
     {
         return name;
     }
@@ -71,7 +70,8 @@ private:
     vector<Student*> waitingList;
 
 public:
-    Course(string code, string name, int credits, Faculty* inst, int capacity)
+    Course(string code, string name, int credits,
+           Faculty* inst, int capacity)
     {
         courseCode = code;
         courseName = name;
@@ -81,78 +81,62 @@ public:
         enrolledCount = 0;
     }
 
-    string getCourseCode() const
+    string getCourseCode()
     {
         return courseCode;
     }
 
-    string getCourseName() const
+    string getCourseName()
     {
         return courseName;
     }
 
-    int getCreditHours() const
-    {
-        return creditHours;
-    }
-
-    int getMaxCapacity() const
-    {
-        return maxCapacity;
-    }
-
-    int getEnrolledCount() const
-    {
-        return enrolledCount;
-    }
-
-    vector<Student*>& getWaitingList()
-    {
-        return waitingList;
-    }
-
-    void enrollStudent(Student* student)
+    void enrollStudent(Student* s)
     {
         if (enrolledCount >= maxCapacity)
             throw CapacityExceededException();
 
-        enrolledStudents.push_back(student);
+        enrolledStudents.push_back(s);
         enrolledCount++;
     }
 
-    void addToWaitingList(Student* student)
+    void addToWaitingList(Student* s)
     {
-        waitingList.push_back(student);
+        waitingList.push_back(s);
     }
 
-    bool operator==(const Course& other)
+    bool operator==(Course& other)
     {
         return courseCode == other.courseCode;
     }
 
     vector<Student*> operator+(Course& other)
     {
-        vector<Student*> mergedList;
+        vector<Student*> merged;
 
-        for (auto s : waitingList)
-            mergedList.push_back(s);
+        int i;
 
-        for (auto s : other.waitingList)
-            mergedList.push_back(s);
+        for(i = 0; i < waitingList.size(); i++)
+            merged.push_back(waitingList[i]);
 
-        return mergedList;
+        for(i = 0; i < other.waitingList.size(); i++)
+            merged.push_back(other.waitingList[i]);
+
+        return merged;
     }
 
-    friend ostream& operator<<(ostream& out, const Course& c);
+    friend ostream& operator<<(ostream& out, Course& c);
 };
 
-ostream& operator<<(ostream& out, const Course& c)
+ostream& operator<<(ostream& out, Course& c)
 {
     out << "Course Code: " << c.courseCode << endl;
     out << "Course Name: " << c.courseName << endl;
     out << "Credit Hours: " << c.creditHours << endl;
     out << "Instructor: " << c.instructor->getName() << endl;
-    out << "Capacity: " << c.enrolledCount << "/" << c.maxCapacity << endl;
+    out << "Capacity: "
+        << c.enrolledCount << "/"
+        << c.maxCapacity << endl;
 
     return out;
 }
@@ -166,7 +150,8 @@ private:
     string grade;
 
 public:
-    Enrollment(Student* s, Course* c, string date, string g = "")
+    Enrollment(Student* s, Course* c,
+               string date, string g)
     {
         student = s;
         course = c;
@@ -176,27 +161,28 @@ public:
 
     void display()
     {
+        cout << "\nEnrollment Details\n";
         cout << "Student: " << student->getName() << endl;
         cout << "Course: " << course->getCourseName() << endl;
-        cout << "Enrollment Date: " << enrollmentDate << endl;
+        cout << "Date: " << enrollmentDate << endl;
         cout << "Grade: " << grade << endl;
     }
 };
 
 int main()
 {
-    Faculty f1(101, "Dr. Ahmed");
+    Faculty f1(101, "Dr Ahmed");
 
     Student s1(1, "Hafsa");
-    Student s2(2, "Hadia");
-    Student s3(3, "Omama");
-    Student s4(4, "Rida");
+    Student s2(2, "Rida");
+    Student s3(3, "Sana");
+    Student s4(4, "Fatima");
 
-    Course c1("CS101", "Programming Fundamentals", 3, &f1, 2);
-    Course c2("CS101", "Programming Fundamentals", 3, &f1, 3);
+    Course c1("CS101", "Programming", 3, &f1, 2);
+    Course c2("CS101", "Programming", 3, &f1, 3);
 
-    if (c1 == c2)
-        cout << "Courses are equal." << endl;
+    if(c1 == c2)
+        cout << "Courses are equal.\n";
 
     try
     {
@@ -204,7 +190,7 @@ int main()
         c1.enrollStudent(&s2);
         c1.enrollStudent(&s3);
     }
-    catch (CapacityExceededException& e)
+    catch(CapacityExceededException e)
     {
         cout << e.what() << endl;
     }
@@ -215,12 +201,17 @@ int main()
     vector<Student*> mergedList = c1 + c2;
 
     cout << "\nMerged Waiting List:\n";
-    for (auto s : mergedList)
-        cout << s->getName() << endl;
 
-    cout << "\n" << c1 << endl;
+    int i;
+    for(i = 0; i < mergedList.size(); i++)
+    {
+        cout << mergedList[i]->getName() << endl;
+    }
 
-    Enrollment e1(&s1, &c1, "2025-09-01", "A");
+    cout << "\nCourse Information\n";
+    cout << c1;
+
+    Enrollment e1(&s1, &c1, "01-Sep-2025", "A");
     e1.display();
 
     return 0;
