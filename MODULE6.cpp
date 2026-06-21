@@ -1,393 +1,477 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+
 using namespace std;
 
-class Student
+class ReportStudent
 {
 private:
-    int studentID;
-    string name;
-public:
-    Student(int id = 0, string n = "")
-    {
-        studentID = id;
-        name = n;
-    }
+int studentID;
+string name;
 
-    string getName()
-    {
-        return name;
-    }
-};
-class Person
-{
 public:
-    virtual ~Person() {}
-};
+ReportStudent(int id = 0, string n = "")
+{
+studentID = id;
+name = n;
+}
 
-class Accommodation : virtual public Person
+
+string getName()
 {
-public:
-    virtual void allocateRoom(Student* student, int roomNo) = 0;
-    virtual void vacateRoom(int roomNo, Student* student) = 0;
+    return name;
+}
+
+
 };
 
-class Reportable : virtual public Person
+class ReportPerson
 {
 public:
-    virtual void generateReport() = 0;
+virtual ~ReportPerson() {}
 };
-class Room
+
+class ReportAccommodation : virtual public ReportPerson
+{
+public:
+virtual void allocateRoom(ReportStudent* student, int roomNo) = 0;
+virtual void vacateRoom(int roomNo, ReportStudent* student) = 0;
+};
+
+class ReportReportable : virtual public ReportPerson
+{
+public:
+virtual void generateReport() = 0;
+};
+
+class ReportRoom
 {
 private:
-    int roomNumber;
-    string type;
-    int floor;
-    Student* occupants[3];
-    int occupantCount;
+int roomNumber;
+string type;
+int floor;
+ReportStudent* occupants[3];
+int occupantCount;
 
 public:
-    Room(int rn = 0, string t = "Single", int f = 0)
-    {
-        roomNumber = rn;
-        type = t;
-        floor = f;
-        occupantCount = 0;
+ReportRoom(int rn = 0, string t = "Single", int f = 0)
+{
+roomNumber = rn;
+type = t;
+floor = f;
+occupantCount = 0;
 
-        for (int i = 0; i < 3; i++)
-            occupants[i] = NULL;
-    }
 
-    int getRoomNumber()
-    {
-        return roomNumber;
-    }
+    for (int i = 0; i < 3; i++)
+        occupants[i] = NULL;
+}
 
-    int getCapacity()
-    {
-        if (type == "Single")
-            return 1;
-        if (type == "Double")
-            return 2;
-        return 3;
-    }
+int getRoomNumber()
+{
+    return roomNumber;
+}
 
-    bool addOccupant(Student* s)
-    {
-        if (occupantCount >= getCapacity())
-            return false;
+int getCapacity()
+{
+    if (type == "Single")
+        return 1;
+    if (type == "Double")
+        return 2;
+    return 3;
+}
 
-        occupants[occupantCount++] = s;
-        return true;
-    }
-
-    bool removeOccupant(Student* s)
-    {
-        for (int i = 0; i < occupantCount; i++)
-        {
-            if (occupants[i] == s)
-            {
-                for (int j = i; j < occupantCount - 1; j++)
-                    occupants[j] = occupants[j + 1];
-
-                occupants[occupantCount - 1] = NULL;
-                occupantCount--;
-                return true;
-            }
-        }
+bool addOccupant(ReportStudent* s)
+{
+    if (occupantCount >= getCapacity())
         return false;
-    }
 
-    void display()
-    {
-        cout << "Room: " << roomNumber
-             << " Type: " << type
-             << " Floor: " << floor
-             << " Occupants: " << occupantCount << "/"
-             << getCapacity() << endl;
+    occupants[occupantCount++] = s;
+    return true;
+}
 
-        for (int i = 0; i < occupantCount; i++)
-            cout << "   - " << occupants[i]->getName() << endl;
-    }
-    string getType()
+bool removeOccupant(ReportStudent* s)
+{
+    for (int i = 0; i < occupantCount; i++)
     {
-        return type;
-    }
+        if (occupants[i] == s)
+        {
+            for (int j = i; j < occupantCount - 1; j++)
+                occupants[j] = occupants[j + 1];
 
-    int getFloor()
-    {
-        return floor;
+            occupants[occupantCount - 1] = NULL;
+            occupantCount--;
+            return true;
+        }
     }
+    return false;
+}
 
-    int getOccupantCount()
-    {
-        return occupantCount;
-    }
+void display()
+{
+    cout << "Room: " << roomNumber
+         << " Type: " << type
+         << " Floor: " << floor
+         << " Occupants: " << occupantCount << "/"
+         << getCapacity() << endl;
 
-    Student* getOccupant(int index)
-    {
-        if (index >= 0 && index < occupantCount)
-            return occupants[index];
-        return NULL;
-    }
+    for (int i = 0; i < occupantCount; i++)
+        cout << "   - " << occupants[i]->getName() << endl;
+}
+
+string getType()
+{
+    return type;
+}
+
+int getFloor()
+{
+    return floor;
+}
+
+int getOccupantCount()
+{
+    return occupantCount;
+}
+
+ReportStudent* getOccupant(int index)
+{
+    if (index >= 0 && index < occupantCount)
+        return occupants[index];
+
+    return NULL;
+}
+
+
 };
 
-class HostelBlock
+class ReportHostelBlock
 {
 private:
-    string blockName;
-    Room rooms[5];
+string blockName;
+ReportRoom rooms[5];
 
 public:
-    HostelBlock(string name = "")
-    {
-        blockName = name;
+ReportHostelBlock(string name = "")
+{
+blockName = name;
 
-        rooms[0] = Room(101, "Single", 1);
-        rooms[1] = Room(102, "Double", 1);
-        rooms[2] = Room(201, "Triple", 2);
-        rooms[3] = Room(202, "Double", 2);
-        rooms[4] = Room(301, "Single", 3);
-    }
-    Room* getRoom(int roomNo)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            if (rooms[i].getRoomNumber() == roomNo)
-                return &rooms[i];
-        }
-        return NULL;
-    }
-    void displayRooms()
-    {
-        cout << "\nBlock: " << blockName << endl;
 
-        for (int i = 0; i < 5; i++)
-            rooms[i].display();
-    }
-    string getBlockName()
+    rooms[0] = ReportRoom(101, "Single", 1);
+    rooms[1] = ReportRoom(102, "Double", 1);
+    rooms[2] = ReportRoom(201, "Triple", 2);
+    rooms[3] = ReportRoom(202, "Double", 2);
+    rooms[4] = ReportRoom(301, "Single", 3);
+}
+
+ReportRoom* getRoom(int roomNo)
+{
+    for (int i = 0; i < 5; i++)
     {
-        return blockName;
-    }
-    Room* getRooms()
-    {
-        return rooms;
+        if (rooms[i].getRoomNumber() == roomNo)
+            return &rooms[i];
     }
 
-    int getRoomCount()
-    {
-        return 5;
-    }
+    return NULL;
+}
+
+void displayRooms()
+{
+    cout << "\nBlock: " << blockName << endl;
+
+    for (int i = 0; i < 5; i++)
+        rooms[i].display();
+}
+
+string getBlockName()
+{
+    return blockName;
+}
+
+ReportRoom* getRooms()
+{
+    return rooms;
+}
+
+int getRoomCount()
+{
+    return 5;
+}
+
+
 };
-class HostelManager : public Accommodation, public Reportable
+
+class ReportHostelManager :
+public ReportAccommodation,
+public ReportReportable
 {
 private:
-    HostelBlock block;
+ReportHostelBlock block;
 
 public:
-    HostelManager(string blockName) : block(blockName)
+ReportHostelManager(string blockName)
+: block(blockName)
+{
+}
+
+
+void allocateRoom(ReportStudent* student, int roomNo)
+{
+    ReportRoom* room = block.getRoom(roomNo);
+
+    if (room == NULL)
     {
+        cout << "Room not found.\n";
+        return;
     }
 
-    void allocateRoom(Student* student, int roomNo)
-    {
-        Room* room = block.getRoom(roomNo);
+    if (room->addOccupant(student))
+        cout << student->getName()
+             << " allocated to Room "
+             << roomNo << endl;
+    else
+        cout << "Room is full.\n";
+}
 
-        if (room == NULL)
-        {
-            cout << "Room not found.\n";
-            return;
-        }
-        if (room->addOccupant(student))
-            cout << student->getName()
-                 << " allocated to Room "
-                 << roomNo << endl;
-        else
-            cout << "Room is full.\n";
-    }
-    void vacateRoom(int roomNo, Student* student)
-    {
-        Room* room = block.getRoom(roomNo);
+void vacateRoom(int roomNo, ReportStudent* student)
+{
+    ReportRoom* room = block.getRoom(roomNo);
 
-        if (room == NULL)
-        {
-            cout << "Room not found.\n";
-            return;
-        }
+    if (room == NULL)
+    {
+        cout << "Room not found.\n";
+        return;
+    }
 
-        if (room->removeOccupant(student))
-            cout << student->getName()
-                 << " vacated Room "
-                 << roomNo << endl;
-        else
-            cout << "Student not found in room.\n";
-    }
-    void generateReport()
-    {
-        cout << "\nHostel Occupancy Report\n";
-        block.displayRooms();
-    }
-    HostelBlock& getBlock()
-    {
-        return block;
-    }
+    if (room->removeOccupant(student))
+        cout << student->getName()
+             << " vacated Room "
+             << roomNo << endl;
+    else
+        cout << "Student not found in room.\n";
+}
+
+void generateReport()
+{
+    cout << "\nHostel Occupancy Report\n";
+    block.displayRooms();
+}
+
+ReportHostelBlock& getBlock()
+{
+    return block;
+}
+
+
 };
+
 class Utils
 {
 public:
-    static void printLine()
-    {
-        cout << "----------------------------------------" << endl;
-    }
+static void printLine()
+{
+cout << "----------------------------------------" << endl;
+}
 
-    static void printHeading(string heading)
-    {
-        cout << endl;
-        printLine();
-        cout << heading << endl;
-        printLine();
-    }
+
+static void printHeading(string heading)
+{
+    cout << endl;
+    printLine();
+    cout << heading << endl;
+    printLine();
+}
+
+
 };
+
 class Reports
 {
 public:
-    static void printHostelReport(HostelManager& manager)
+static void printHostelReport(ReportHostelManager& manager)
+{
+Utils::printHeading("HOSTEL REPORT");
+manager.generateReport();
+}
+
+
+static void searchStudentByName(
+    ReportHostelManager& manager,
+    string studentName)
+{
+    Utils::printHeading("SEARCH STUDENT");
+
+    ReportHostelBlock& block = manager.getBlock();
+    ReportRoom* rooms = block.getRooms();
+
+    bool found = false;
+
+    for (int i = 0; i < block.getRoomCount(); i++)
     {
-        Utils::printHeading("HOSTEL REPORT");
-        manager.generateReport();
-    }
-    static void searchStudentByName(HostelManager& manager, string studentName)
-    {
-        Utils::printHeading("SEARCH STUDENT");
-
-        HostelBlock& block = manager.getBlock();
-        Room* rooms = block.getRooms();
-        int roomCount = block.getRoomCount();
-
-        bool found = false;
-
-        for (int i = 0; i < roomCount; i++)
+        for (int j = 0; j < rooms[i].getOccupantCount(); j++)
         {
-            for (int j = 0; j < rooms[i].getOccupantCount(); j++)
+            ReportStudent* s = rooms[i].getOccupant(j);
+
+            if (s != NULL && s->getName() == studentName)
             {
-                Student* s = rooms[i].getOccupant(j);
+                cout << studentName
+                     << " is in Room "
+                     << rooms[i].getRoomNumber()
+                     << endl;
 
-                if (s != NULL && s->getName() == studentName)
-                {
-                    cout << studentName << " is in Room "
-                         << rooms[i].getRoomNumber() << endl;
-                    found = true;
-                }
-            }
-        }
-
-        if (!found)
-            cout << "Student not found in hostel." << endl;
-    }
-    static void searchRoom(HostelManager& manager, int roomNo)
-    {
-        Utils::printHeading("SEARCH ROOM");
-
-        HostelBlock& block = manager.getBlock();
-        Room* room = block.getRoom(roomNo);
-
-        if (room == NULL)
-        {
-            cout << "Room not found." << endl;
-            return;
-        }
-        room->display();
-    }
-    static void showVacantRooms(HostelManager& manager)
-    {
-        Utils::printHeading("VACANT ROOMS");
-
-        HostelBlock& block = manager.getBlock();
-        Room* rooms = block.getRooms();
-        int roomCount = block.getRoomCount();
-
-        bool found = false;
-
-        for (int i = 0; i < roomCount; i++)
-        {
-            if (rooms[i].getOccupantCount() < rooms[i].getCapacity())
-            {
-                cout << "Room " << rooms[i].getRoomNumber()
-                     << " has vacancy." << endl;
                 found = true;
             }
         }
-
-        if (!found)
-            cout << "No vacant rooms available." << endl;
     }
-    static void saveHostelReportToFile(HostelManager& manager, string fileName)
+
+    if (!found)
+        cout << "Student not found in hostel." << endl;
+}
+
+static void searchRoom(
+    ReportHostelManager& manager,
+    int roomNo)
+{
+    Utils::printHeading("SEARCH ROOM");
+
+    ReportRoom* room =
+        manager.getBlock().getRoom(roomNo);
+
+    if (room == NULL)
     {
-        ofstream fout(fileName.c_str());
-
-        if (!fout)
-        {
-            cout << "File could not be opened." << endl;
-            return;
-        }
-
-        HostelBlock& block = manager.getBlock();
-        Room* rooms = block.getRooms();
-        int roomCount = block.getRoomCount();
-
-        fout << "HOSTEL REPORT" << endl;
-        fout << "Block: " << block.getBlockName() << endl << endl;
-
-        for (int i = 0; i < roomCount; i++)
-        {
-            fout << "Room: " << rooms[i].getRoomNumber() << endl;
-            fout << "Type: " << rooms[i].getType() << endl;
-            fout << "Floor: " << rooms[i].getFloor() << endl;
-            fout << "Occupants: " << rooms[i].getOccupantCount()
-                 << "/" << rooms[i].getCapacity() << endl;
-
-            for (int j = 0; j < rooms[i].getOccupantCount(); j++)
-            {
-                Student* s = rooms[i].getOccupant(j);
-                if (s != NULL)
-                    fout << "   - " << s->getName() << endl;
-            }
-
-            fout << endl;
-        }
-
-        fout.close();
-        cout << "Hostel report saved successfully." << endl;
+        cout << "Room not found." << endl;
+        return;
     }
+
+    room->display();
+}
+
+static void showVacantRooms(
+    ReportHostelManager& manager)
+{
+    Utils::printHeading("VACANT ROOMS");
+
+    ReportHostelBlock& block = manager.getBlock();
+    ReportRoom* rooms = block.getRooms();
+
+    bool found = false;
+
+    for (int i = 0; i < block.getRoomCount(); i++)
+    {
+        if (rooms[i].getOccupantCount()
+            < rooms[i].getCapacity())
+        {
+            cout << "Room "
+                 << rooms[i].getRoomNumber()
+                 << " has vacancy."
+                 << endl;
+
+            found = true;
+        }
+    }
+
+    if (!found)
+        cout << "No vacant rooms available." << endl;
+}
+
+static void saveHostelReportToFile(
+    ReportHostelManager& manager,
+    string fileName)
+{
+    ofstream fout(fileName.c_str());
+
+    if (!fout)
+    {
+        cout << "File could not be opened."
+             << endl;
+        return;
+    }
+
+    ReportHostelBlock& block = manager.getBlock();
+    ReportRoom* rooms = block.getRooms();
+
+    fout << "HOSTEL REPORT" << endl;
+    fout << "Block: "
+         << block.getBlockName()
+         << endl << endl;
+
+    for (int i = 0; i < block.getRoomCount(); i++)
+    {
+        fout << "Room: "
+             << rooms[i].getRoomNumber()
+             << endl;
+
+        fout << "Type: "
+             << rooms[i].getType()
+             << endl;
+
+        fout << "Floor: "
+             << rooms[i].getFloor()
+             << endl;
+
+        fout << "Occupants: "
+             << rooms[i].getOccupantCount()
+             << "/"
+             << rooms[i].getCapacity()
+             << endl;
+
+        for (int j = 0;
+             j < rooms[i].getOccupantCount();
+             j++)
+        {
+            ReportStudent* s =
+                rooms[i].getOccupant(j);
+
+            if (s != NULL)
+                fout << "   - "
+                     << s->getName()
+                     << endl;
+        }
+
+        fout << endl;
+    }
+
+    fout.close();
+
+    cout << "Hostel report saved successfully."
+         << endl;
+}
+
+
 };
+
 int main()
 {
-    Student s1(1, "Fatima");
-    Student s2(2, "Hafsa");
-    Student s3(3, "Zara");
-    Student s4(4, "Rida");
+ReportStudent s1(1, "Fatima");
+ReportStudent s2(2, "Hafsa");
+ReportStudent s3(3, "Zara");
+ReportStudent s4(4, "Rida");
 
-    HostelManager manager("A Block");
 
-    manager.allocateRoom(&s1, 102);
-    manager.allocateRoom(&s2, 102);
-    manager.allocateRoom(&s3, 102);  
-    manager.allocateRoom(&s4, 201);
+ReportHostelManager manager("A Block");
 
-    Reports::printHostelReport(manager);
+manager.allocateRoom(&s1, 102);
+manager.allocateRoom(&s2, 102);
+manager.allocateRoom(&s3, 102);
+manager.allocateRoom(&s4, 201);
 
-    Reports::searchStudentByName(manager, "Hafsa");
+Reports::printHostelReport(manager);
 
-    Reports::searchRoom(manager, 201);
+Reports::searchStudentByName(manager, "Hafsa");
 
-    Reports::showVacantRooms(manager);
+Reports::searchRoom(manager, 201);
 
-    Reports::saveHostelReportToFile(manager, "HostelReport.txt");
+Reports::showVacantRooms(manager);
 
-    manager.vacateRoom(102, &s1);
+Reports::saveHostelReportToFile(
+    manager,
+    "HostelReport.txt");
 
-    Reports::printHostelReport(manager);
+manager.vacateRoom(102, &s1);
 
-    return 0;
+Reports::printHostelReport(manager);
+
+return 0;
+
+
 }
