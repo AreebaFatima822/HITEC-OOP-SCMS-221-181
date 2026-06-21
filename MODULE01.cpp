@@ -62,10 +62,11 @@ public:
         semester = f;
         gpa = g;
 
-        for (int i = 0; i < 5; i++)
-            encourses[i] = 0;
-
-        encourses[0] = h;
+        for(int i=0;i<5;i++)
+{
+    encourses[i]=0;
+}
+encourses[0]=h;
     }
 
     void input()
@@ -212,18 +213,14 @@ int main()
     person *P2 = new faculity("Hajra", 45267, 35, "0313245", 157, "CS", "Lecturer", 2);
     person *P3 = new staff("Fatima", 56791, 23, "0315234", 121, "Assistant", 40000);
 
-    P1->input();
+    
     P1->displayinfo();
-
     cout << endl;
 
-    P2->input();
     P2->displayinfo();
-
     cout<<endl;
 
-    P3->input();
-    P3->displayinfo();
+     P3->displayinfo();
 
     return 0;
 }
