@@ -28,6 +28,12 @@ class person
         cout<<"Enter Contact Number : "<<endl;
         cin>>contact;
     }
+    void display()
+{
+    cout<<"Name : "<<name<<endl;
+    cout<<"CNIC : "<<CNIC<<endl;
+    cout<<"Age : "<<age<<endl;
+    cout<<"Contact : "<<contact<<endl;
 };
 class student : public person
 {
@@ -42,10 +48,15 @@ class student : public person
         rollno = e;
         semester = f;
         gpa = g;
+        for(int i=0;i<5;i++)
+        {
+            encourses[i]=0;
+        }
         encourses [0] =h;
     }
-    void input()
+    void studentinput()
     {
+        person::input();
         cout<<"Enter Roll Number of Student : "<<endl;
         cin>>rollno;
         cout<<"Enter Semester : "<<endl;
@@ -57,10 +68,10 @@ class student : public person
         {
             cin>>encourses[i];
         }
-        person::input();
     }
-    void displayinfo()
+    void displaystudentinfo()
     {
+        person::display();
         cout<<"Roll Number : "<<rollno<<endl;
         cout<<"Semester : "<<semester<<endl;
         cout<<"GPA : "<<gpa<<endl;
@@ -72,19 +83,19 @@ class student : public person
     }
     void calculategrade()
     {
-        if(gpa > 3.5)
+        if(gpa >= 3.5)
         {
             cout<<"A Grade."<<endl;
         }
-        else if(gpa > 3 && gpa <3.5)
+        else if(gpa >= 3 && gpa <3.5)
         {
             cout<<"B Grade."<<endl;
         }
-        else if (gpa > 2.5 && gpa <3)
+        else if (gpa >= 2.5 && gpa <3)
         {
             cout<<"C Grade."<<endl;
         }
-        else if (gpa > 2 && gpa <2.5)
+        else if (gpa >= 2 && gpa <2.5)
         {
             cout<<"D Grade."<<endl;
         } 
@@ -109,8 +120,9 @@ class faculity : public person
         designation=g;
         asscourses=h;
     }
-    void input()
+    void faculityinput()
     {
+        person::input();
         cout<<"Enter Employee ID : "<<endl;
         cin>>empid;
         cout<<"Enter Department : "<<endl;
@@ -121,8 +133,9 @@ class faculity : public person
         cin>>asscourses;
         person::input();
     }
-    void displayinfo()
+    void displayfaculityinfo()
     {
+        person::display();
         cout<<"Employee ID : "<<empid<<endl;
         cout<<"Department : "<<department<<endl;
         cout<<"Designation : "<<designation<<endl;
@@ -142,8 +155,9 @@ class staff : public person
         role = f;
         salary = g;
     }
-    void input()
+    void staffinput()
     {
+        person::input();
         cout<<"Enter Staff ID : "<<endl;
         cin>>staffid;
         cout<<"Enter Role : "<<endl;
@@ -152,8 +166,9 @@ class staff : public person
         cin>>salary;
         person::input();
     }
-    void displayinfo()
+    void displaystaffinfo()
     {
+        person::display();
         cout<<"Staff ID : "<<staffid<<endl;
         cout<<"Role : "<<role<<endl;
         cout<<"Salary : "<<salary<<endl;
@@ -165,16 +180,16 @@ int main()
     person *P2 = new faculity("Hajra",45267,15,"0313245",157,"computer science","Lecturer",2);
     person *P3 = new staff("Fatima",56791,23,"0315234",121,"Assistant",40000);
 
-    P1->input();
-    P1->displayinfo();
+    P1->studentinput();
+    P1->displaystudentinfo();
     cout<<endl;
 
-    P2->input();
-    P2->displayinfo();
+    P2->faculityinput();
+    P2->displayfaculityinfo();
     cout<<endl;
 
-    P3->input();
-    P3->displayinfo();
+    P3->staffinput();
+    P3->displaystaffinfo();
 
     return 0;
 
