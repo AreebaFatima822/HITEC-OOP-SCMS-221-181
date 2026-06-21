@@ -40,20 +40,20 @@ public:
         publicationYear=year;
     }
     virtual void checkout()=0;
-    virtual void displayInfo()=0;
-    int getItemId() 
+    virtual void displayInfo() const =0;
+    int getItemId() const 
     {
         return itemID;
     }
-    string getTitle() 
+    string getTitle() const
     {
         return title;
     }
-    string getauthor() 
+    string getauthor() const
     {
         return author;
     }
-    int getpublicationYear() 
+    int getpublicationYear() const
     {
         return publicationYear;
     }
@@ -88,7 +88,7 @@ public:
             cout<<"No copies are available."<<endl;
         }
     }
-    void displayInfo() override
+    void displayInfo() const override
     {
         cout<<"Item ID is: "<<itemID<<endl;
         cout<<"The title of book is: "<<title<<endl;
@@ -98,7 +98,7 @@ public:
         cout<<"Genre of the book is: "<<genre<<endl;
         cout<<"The copies available are: "<<copiesAvailable<<endl;
     }
-    int getCopiesAvailable() 
+    int getCopiesAvailable() const
     {
         return copiesAvailable;
     }
@@ -130,7 +130,7 @@ public:
     {
         cout<<"Journal is checked out."<<endl;
     }
-    void displayInfo() override
+    void displayInfo() const override
     {
         cout<<"The Item ID: "<<itemID<<endl;
         cout<<"The title is: "<<title<<endl;
@@ -169,7 +169,7 @@ public:
             itemCount++;
         }
     }
-    void displayCatalog() 
+    void displayCatalog() const
     {
         for (int i=0;i<itemCount;i++)
         {
