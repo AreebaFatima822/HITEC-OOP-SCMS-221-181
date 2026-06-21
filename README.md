@@ -16,6 +16,7 @@
 
 * Areeba Fatima (25-CS-221)
 * Hafsa Shahid (25-CS-181)
+* Rida Sajid (25-CS-061)
 
 
 
