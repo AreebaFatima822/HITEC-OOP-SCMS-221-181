@@ -53,7 +53,7 @@ class student : public person
         cout<<"Enter GPA : "<<endl;
         cin>>gpa;
         cout<<"Enter enrollment courses : "<<endl;
-        for(int i=0;i<=5;i++)
+        for(int i=0;i<5;i++)
         {
             cin>>encourses[i];
         }
@@ -65,7 +65,7 @@ class student : public person
         cout<<"Semester : "<<semester<<endl;
         cout<<"GPA : "<<gpa<<endl;
         cout<<"Enrollment Courses"<<endl;
-        for(int i=0;i<=5;i++)
+        for(int i=0;i<5;i++)
         {
             cout<<encourses[i]<<endl;;
         }
