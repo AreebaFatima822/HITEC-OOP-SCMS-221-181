@@ -220,7 +220,7 @@ int main()
     P2->input();
     P2->displayinfo();
 
-    cout << endl;
+    cout<<endl;
 
     P3->input();
     P3->displayinfo();
