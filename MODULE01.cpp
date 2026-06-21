@@ -19,7 +19,7 @@ class person
     }
     void input()
     {
-        cout<<"Enter Name : "<<endl;
+        cout<<"Enter Name of Person: "<<endl;
         cin>>name;
         cout<<"Enter CNIC : "<<endl;
         cin>>CNIC;
@@ -46,7 +46,7 @@ class student : public person
     }
     void input()
     {
-        cout<<"Enter Roll Number : "<<endl;
+        cout<<"Enter Roll Number of Student : "<<endl;
         cin>>rollno;
         cout<<"Enter Semester : "<<endl;
         cin>>semester;
