@@ -217,15 +217,10 @@ int main()
     P1->displayinfo();
     cout << endl;
    
-
     P2->displayinfo();
     cout<<endl;
 
-
-    
     P3->displayinfo();
-
-     P3->displayinfo();
 
 
     return 0;
