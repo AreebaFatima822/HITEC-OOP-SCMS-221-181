@@ -1,3 +1,12 @@
+#include<"MODULE01">
+#include<"MODULE_02">
+#include<"MODULE03">
+#include<"MODULE04">
+#include<"Module-5">
+#include<"MODULE6>
+
+using namespaced std;
+
 int main()
 {
     person *P1 = new student("Rida", 36104, 19, "0317745", "061", 2, 3.8, 4);
